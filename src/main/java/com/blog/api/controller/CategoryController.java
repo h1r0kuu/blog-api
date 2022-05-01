@@ -2,6 +2,7 @@ package com.blog.api.controller;
 
 import com.blog.api.dto.CategoryDto;
 import com.blog.api.entity.Category;
+import com.blog.api.entity.Tag;
 import com.blog.api.service.impl.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,12 @@ public class CategoryController {
                                                       @RequestBody CategoryDto categoryDto) {
         Category updatedCategory = iCategoryService.update(categoryId, categoryDto.convertToEntity(categoryDto));
         return ResponseEntity.ok(categoryDto.convertToDto(updatedCategory));
+    }
+
+    @GetMapping("/{slug}")
+    public ResponseEntity<CategoryDto> getOne(@PathVariable("slug") String slug) {
+        Category category = iCategoryService.findBySlug(slug);
+        return ResponseEntity.ok(categoryDto.convertToDto(category));
     }
 
     @GetMapping("/all")

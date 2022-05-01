@@ -37,6 +37,12 @@ public class TagController {
         return ResponseEntity.ok(tagDto.convertToDto(updatedTag));
     }
 
+    @GetMapping("/{slug}")
+    public ResponseEntity<TagDto> getOne(@PathVariable("slug") String slug) {
+        Tag tag = iTagService.findBySlug(slug);
+        return ResponseEntity.ok(tagDto.convertToDto(tag));
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<TagDto>> getAll() {
         List<Tag> tags = iTagService.getAll();

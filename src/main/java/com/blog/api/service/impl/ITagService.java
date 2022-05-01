@@ -35,6 +35,12 @@ public class ITagService implements TagService {
     }
 
     @Override
+    public Tag findBySlug(String slug) {
+        Tag tag = tagRepository.findBySlug(slug);
+        return tag;
+    }
+
+    @Override
     public List<Tag> getAll() {
         List<Tag> tags = tagRepository.findAll();
         return tags;

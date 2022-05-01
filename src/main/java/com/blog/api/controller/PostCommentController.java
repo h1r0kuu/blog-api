@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostCommentController {
 
     private final IPostCommentService iPostCommentService;
+    private PostCommentDto postCommentDto;
 
     @PostMapping("/create")
     public ResponseEntity<PostCommentDto> create(@RequestBody PostCommentDto postCommentDto) {
@@ -32,5 +33,11 @@ public class PostCommentController {
                                                  @RequestBody PostCommentDto postCommentDto) {
         PostComment updatedComment = iPostCommentService.update(commentId, postCommentDto.convertToEntity(postCommentDto));
         return ResponseEntity.ok(postCommentDto.convertToDto(updatedComment));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostCommentDto> getOne(@PathVariable("id") Long id) {
+        PostComment comment = iPostCommentService.findById(id);
+        return ResponseEntity.ok(postCommentDto.convertToDto(comment));
     }
 }

@@ -36,6 +36,12 @@ public class ICategoryService implements CategoryService {
     }
 
     @Override
+    public Category findBySlug(String slug) {
+        Category category = categoryRepository.findBySlug(slug);
+        return category;
+    }
+
+    @Override
     public List<Category> getAll() {
         List<Category> categories = categoryRepository.findAll();
         return categories;

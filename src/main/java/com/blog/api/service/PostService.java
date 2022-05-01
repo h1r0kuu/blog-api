@@ -10,6 +10,7 @@ public interface PostService {
     Post create(Post post);
     void delete(Long id);
     Post update(Long postId, Post post);
+    Post findBySlug(String slug);
     Page<Post> getPostsByCategorySlug(String slug, Pageable pageable);
     Page<Post> getPostsByTagSlug(String slug, Pageable pageable);
 }

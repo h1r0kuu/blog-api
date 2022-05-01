@@ -39,6 +39,12 @@ public class PostController {
         return ResponseEntity.ok(postDto.convertToDto(updatedPost));
     }
 
+    @GetMapping("/{slug}")
+    public ResponseEntity<PostDto> getOne(@PathVariable("slug") String slug) {
+        Post post = iPostService.findBySlug(slug);
+        return ResponseEntity.ok(postDto.convertToDto(post));
+    }
+
     @GetMapping("/category/{slug}")
     public ResponseEntity<Page<Post>> getPostsByCategory(@PathVariable("slug") String slug,
                                                          @RequestParam(defaultValue = "0", value = "page_num") int pageNum,

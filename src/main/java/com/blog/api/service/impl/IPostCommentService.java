@@ -30,4 +30,10 @@ public class IPostCommentService implements PostCommentService {
         PostComment updatedComment = postCommentRepository.save(comment);
         return updatedComment;
     }
+
+    @Override
+    public PostComment findById(Long commentId) {
+        PostComment comment = postCommentRepository.findById(commentId).get();
+        return comment;
+    }
 }

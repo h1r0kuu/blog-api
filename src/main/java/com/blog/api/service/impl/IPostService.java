@@ -42,6 +42,12 @@ public class IPostService implements PostService {
     }
 
     @Override
+    public Post findBySlug(String slug) {
+        Post post = postRepository.findBySlug(slug);
+        return post;
+    }
+
+    @Override
     public Page<Post> getPostsByCategorySlug(String slug, Pageable pageable) {
         Page<Post> posts = postRepository.findByCategory_Slug(slug, pageable);
         return posts;

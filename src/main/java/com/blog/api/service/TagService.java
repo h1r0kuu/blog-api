@@ -8,5 +8,6 @@ public interface TagService {
     Tag create(Tag tag);
     void delete(Long id);
     Tag update(Long tagId, Tag tag);
+    Tag findBySlug(String slug);
     List<Tag> getAll();
 }
