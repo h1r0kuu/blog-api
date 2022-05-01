@@ -6,11 +6,19 @@ import com.blog.api.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ITagService implements TagService {
 
     private final TagRepository tagRepository;
+
+    @Override
+    public Tag create(Tag tag) {
+        Tag createdTag = tagRepository.save(tag);
+        return createdTag;
+    }
 
     @Override
     public void delete(Long id) {
@@ -24,5 +32,11 @@ public class ITagService implements TagService {
         t.setSlug(tag.getTitle());
         Tag createdTag = tagRepository.save(t);
         return createdTag;
+    }
+
+    @Override
+    public List<Tag> getAll() {
+        List<Tag> tags = tagRepository.findAll();
+        return tags;
     }
 }
