@@ -6,6 +6,8 @@ import com.blog.api.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ICategoryService implements CategoryService {
@@ -16,5 +18,11 @@ public class ICategoryService implements CategoryService {
     public Category create(Category category) {
         Category createdCategory = categoryRepository.save(category);
         return createdCategory;
+    }
+
+    @Override
+    public List<Category> getAll() {
+        List<Category> categories = categoryRepository.findAll();
+        return categories;
     }
 }

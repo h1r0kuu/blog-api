@@ -5,10 +5,9 @@ import com.blog.api.entity.Category;
 import com.blog.api.service.impl.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -22,5 +21,14 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {
         Category createdCategory = iCategoryService.create(categoryDto.convertToEntity(categoryDto));
         return ResponseEntity.ok(categoryDto.convertToDto(createdCategory));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CategoryDto>> getAll() {
+        List<Category> categories = iCategoryService.getAll();
+        return ResponseEntity.ok(categories
+                                 .stream()
+                                 .map(categoryDto::convertToDto)
+                                 .toList());
     }
 }
