@@ -17,7 +17,7 @@ import java.util.List;
 public class CategoryController {
 
     private final ICategoryService iCategoryService;
-    private CategoryDto categoryDto;
+    private final CategoryDto categoryDto = new CategoryDto();
 
     @PostMapping("/create")
     public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {

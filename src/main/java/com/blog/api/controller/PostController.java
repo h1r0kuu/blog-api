@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final IPostService iPostService;
-    private PostDto postDto;
+    private PostDto postDto = new PostDto();
 
     @PostMapping("/create")
     public ResponseEntity<PostDto> create(@RequestBody PostDto postDto) {
