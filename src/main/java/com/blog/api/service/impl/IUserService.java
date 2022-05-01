@@ -1,8 +1,39 @@
 package com.blog.api.service.impl;
 
+import com.blog.api.dao.UserRepository;
+import com.blog.api.dto.UserDto;
+import com.blog.api.entity.User;
 import com.blog.api.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
-public class IUserService implements UserService {
+@RequiredArgsConstructor
+public class IUserService implements UserService, UserDetailsService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public User registration(User user) {
+        User createdUser = userRepository.save(user);
+        return createdUser;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if(Objects.isNull(user)) throw new UsernameNotFoundException("User with this username does`t exist");
+        return user;
+    }
+
+    public User getUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if(Objects.isNull(user)) throw new UsernameNotFoundException("User with this username does`t exist");
+        return user;
+    }
 }
