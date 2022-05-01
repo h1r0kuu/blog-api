@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
     Page<Post> findByCategory_Slug(String slug, Pageable pageable);
+    Page<Post> findByTag_Slug(String slug, Pageable pageable);
 }

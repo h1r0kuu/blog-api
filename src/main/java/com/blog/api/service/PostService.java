@@ -11,4 +11,5 @@ public interface PostService {
     void delete(Long id);
     Post update(Long postId, Post post);
     Page<Post> getPostsByCategorySlug(String slug, Pageable pageable);
+    Page<Post> getPostsByTagSlug(String slug, Pageable pageable);
 }

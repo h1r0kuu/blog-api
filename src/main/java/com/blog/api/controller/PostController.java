@@ -41,11 +41,20 @@ public class PostController {
 
     @GetMapping("/category/{slug}")
     public ResponseEntity<Page<Post>> getPostsByCategory(@PathVariable("slug") String slug,
-                                                            @RequestParam(defaultValue = "0", value = "page_num") int pageNum,
-                                                            @RequestParam(defaultValue = "10", value = "page_size") int pageSize) {
+                                                         @RequestParam(defaultValue = "0", value = "page_num") int pageNum,
+                                                         @RequestParam(defaultValue = "10", value = "page_size") int pageSize) {
 
         Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by("createdAt"));
         Page<Post> posts = iPostService.getPostsByCategorySlug(slug, paging);
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/tag/{slug}")
+    public ResponseEntity<Page<Post>> getPostsByTag(@PathVariable("slug") String slug,
+                                                    @RequestParam(defaultValue = "0", value = "page_num") int pageNum,
+                                                    @RequestParam(defaultValue = "10", value = "page_size") int pageSize) {
+        Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by("createdAt"));
+        Page<Post> posts = iPostService.getPostsByTagSlug(slug, paging);
         return ResponseEntity.ok(posts);
     }
 }
