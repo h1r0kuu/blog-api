@@ -16,12 +16,12 @@ public class TagDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private TagDto convertToDto(Tag tag) {
+    public TagDto convertToDto(Tag tag) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(tag, TagDto.class);
     }
 
-    private Tag convertToEntity(TagDto tagDto) {
+    public Tag convertToEntity(TagDto tagDto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(tagDto, Tag.class);
     }

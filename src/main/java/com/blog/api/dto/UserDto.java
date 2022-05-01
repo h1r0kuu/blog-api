@@ -16,12 +16,12 @@ public class UserDto {
     private LocalDateTime registeredAt;
     private LocalDateTime updatedAt;
 
-    private UserDto convertToDto(User user) {
+    public UserDto convertToDto(User user) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(user, UserDto.class);
     }
 
-    private User convertToEntity(UserDto userDto) {
+    public User convertToEntity(UserDto userDto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(userDto, User.class);
     }

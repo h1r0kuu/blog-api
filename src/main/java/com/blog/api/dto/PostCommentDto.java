@@ -15,12 +15,12 @@ public class PostCommentDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private PostCommentDto convertToDto(PostComment postComment) {
+    public PostCommentDto convertToDto(PostComment postComment) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(postComment, PostCommentDto.class);
     }
 
-    private PostComment convertToEntity(PostCommentDto postCommentDto) {
+    public PostComment convertToEntity(PostCommentDto postCommentDto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(postCommentDto, PostComment.class);
     }

@@ -21,12 +21,12 @@ public class PostDto {
     private LocalDateTime updatedAt;
     private LocalDateTime publishedAt;
 
-    private PostDto convertToDto(Post post) {
+    public PostDto convertToDto(Post post) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(post, PostDto.class);
     }
 
-    private Post convertToEntity(PostDto postDto) {
+    public Post convertToEntity(PostDto postDto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(postDto, Post.class);
     }
