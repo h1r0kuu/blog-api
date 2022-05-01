@@ -15,6 +15,12 @@ public class PostCommentController {
 
     private final IPostCommentService iPostCommentService;
 
+    @PostMapping("/create")
+    public ResponseEntity<PostCommentDto> create(@RequestBody PostCommentDto postCommentDto) {
+        PostComment createdComment = iPostCommentService.create(postCommentDto.convertToEntity(postCommentDto));
+        return ResponseEntity.ok(postCommentDto.convertToDto(createdComment));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         iPostCommentService.delete(id);
