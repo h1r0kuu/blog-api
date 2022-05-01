@@ -16,8 +16,7 @@ public class ICategoryService implements CategoryService {
 
     @Override
     public Category create(Category category) {
-        Category createdCategory = categoryRepository.save(category);
-        return createdCategory;
+        return categoryRepository.save(category);
     }
 
     @Override
@@ -31,19 +30,16 @@ public class ICategoryService implements CategoryService {
         cat.setTitle(category.getTitle());
         cat.setSlug(category.getSlug());
         cat.setCategory(category.getCategory());
-        Category updatedCategory = categoryRepository.save(cat);
-        return updatedCategory;
+        return categoryRepository.save(cat);
     }
 
     @Override
     public Category findBySlug(String slug) {
-        Category category = categoryRepository.findBySlug(slug);
-        return category;
+        return categoryRepository.findBySlug(slug);
     }
 
     @Override
     public List<Category> getAll() {
-        List<Category> categories = categoryRepository.findAll();
-        return categories;
+        return categoryRepository.findAll();
     }
 }

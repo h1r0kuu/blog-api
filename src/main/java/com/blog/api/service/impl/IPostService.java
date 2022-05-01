@@ -18,8 +18,7 @@ public class IPostService implements PostService {
 
     @Override
     public Post create(Post post) {
-        Post createdPost = postRepository.save(post);
-        return createdPost;
+        return postRepository.save(post);
     }
 
     @Override
@@ -37,31 +36,26 @@ public class IPostService implements PostService {
         p.setImageUrl(post.getImageUrl());
         p.setTags(post.getTags());
         p.setPublishedAt(post.getPublishedAt());
-        Post updatedPost = postRepository.save(p);
-        return updatedPost;
+        return postRepository.save(p);
     }
 
     @Override
     public Post findBySlug(String slug) {
-        Post post = postRepository.findBySlug(slug);
-        return post;
+        return postRepository.findBySlug(slug);
     }
 
     @Override
     public Page<Post> getPostsByCategorySlug(String slug, Pageable pageable) {
-        Page<Post> posts = postRepository.findByCategory_Slug(slug, pageable);
-        return posts;
+        return postRepository.findByCategory_Slug(slug, pageable);
     }
 
     @Override
     public Page<Post> getPostsByTagSlug(String slug, Pageable pageable) {
-        Page<Post> posts = postRepository.findByTags_Slug(slug, pageable);
-        return posts;
+        return postRepository.findByTags_Slug(slug, pageable);
     }
 
     @Override
     public List<Post> getUserPosts(String username) {
-        List<Post> posts = postRepository.findByUser_Username(username);
-        return posts;
+        return postRepository.findByUser_Username(username);
     }
 }

@@ -47,6 +47,8 @@ public class Post implements Serializable {
     )
     private Set<Tag> tags;
 
+    //TODO: add likes dislikes
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

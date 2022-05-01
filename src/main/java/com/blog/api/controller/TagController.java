@@ -16,7 +16,7 @@ import java.util.List;
 public class TagController {
 
     private final ITagService iTagService;
-    private TagDto tagDto = new TagDto();
+    private final TagDto tagDto = new TagDto();
 
     @PostMapping("/create")
     public ResponseEntity<TagDto> create(@RequestBody TagDto tagDto) {

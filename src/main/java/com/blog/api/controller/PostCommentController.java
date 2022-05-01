@@ -16,7 +16,7 @@ import java.util.List;
 public class PostCommentController {
 
     private final IPostCommentService iPostCommentService;
-    private PostCommentDto postCommentDto = new PostCommentDto();
+    private final PostCommentDto postCommentDto = new PostCommentDto();
 
     @PostMapping("/create")
     public ResponseEntity<PostCommentDto> create(@RequestBody PostCommentDto postCommentDto) {

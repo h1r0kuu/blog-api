@@ -2,7 +2,6 @@ package com.blog.api.controller;
 
 import com.blog.api.dto.CategoryDto;
 import com.blog.api.entity.Category;
-import com.blog.api.entity.Tag;
 import com.blog.api.service.impl.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

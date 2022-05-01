@@ -20,8 +20,7 @@ public class IUserService implements UserService, UserDetailsService {
 
     @Override
     public User registration(User user) {
-        User createdUser = userRepository.save(user);
-        return createdUser;
+        return userRepository.save(user);
     }
 
     @Override

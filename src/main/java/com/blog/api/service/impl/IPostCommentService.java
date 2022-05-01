@@ -16,8 +16,7 @@ public class IPostCommentService implements PostCommentService {
 
     @Override
     public PostComment create(PostComment postComment) {
-        PostComment createdComment = postCommentRepository.save(postComment);
-        return createdComment;
+        return postCommentRepository.save(postComment);
     }
 
     @Override
@@ -29,25 +28,21 @@ public class IPostCommentService implements PostCommentService {
     public PostComment update(Long commentId, PostComment postComment) {
         PostComment comment = postCommentRepository.findById(commentId).get();
         comment.setContent(postComment.getContent());
-        PostComment updatedComment = postCommentRepository.save(comment);
-        return updatedComment;
+        return postCommentRepository.save(comment);
     }
 
     @Override
     public PostComment findById(Long commentId) {
-        PostComment comment = postCommentRepository.findById(commentId).get();
-        return comment;
+        return postCommentRepository.findById(commentId).get();
     }
 
     @Override
     public List<PostComment> getPostComments(String postSlug) {
-        List<PostComment> comments = postCommentRepository.findByPost_Slug(postSlug);
-        return comments;
+        return postCommentRepository.findByPost_Slug(postSlug);
     }
 
     @Override
     public List<PostComment> getUserComments(String username) {
-        List<PostComment> comments = postCommentRepository.findByUser_Username(username);
-        return comments;
+        return postCommentRepository.findByUser_Username(username);
     }
 }

@@ -16,8 +16,7 @@ public class ITagService implements TagService {
 
     @Override
     public Tag create(Tag tag) {
-        Tag createdTag = tagRepository.save(tag);
-        return createdTag;
+        return tagRepository.save(tag);
     }
 
     @Override
@@ -30,19 +29,16 @@ public class ITagService implements TagService {
         Tag t = tagRepository.findById(tagId).get();
         t.setTitle(tag.getTitle());
         t.setSlug(tag.getTitle());
-        Tag createdTag = tagRepository.save(t);
-        return createdTag;
+        return tagRepository.save(t);
     }
 
     @Override
     public Tag findBySlug(String slug) {
-        Tag tag = tagRepository.findBySlug(slug);
-        return tag;
+        return tagRepository.findBySlug(slug);
     }
 
     @Override
     public List<Tag> getAll() {
-        List<Tag> tags = tagRepository.findAll();
-        return tags;
+        return tagRepository.findAll();
     }
 }
