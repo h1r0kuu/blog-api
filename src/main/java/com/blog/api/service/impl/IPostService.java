@@ -58,4 +58,10 @@ public class IPostService implements PostService {
         Page<Post> posts = postRepository.findByTags_Slug(slug, pageable);
         return posts;
     }
+
+    @Override
+    public List<Post> getUserPosts(String username) {
+        List<Post> posts = postRepository.findByUser_Username(username);
+        return posts;
+    }
 }

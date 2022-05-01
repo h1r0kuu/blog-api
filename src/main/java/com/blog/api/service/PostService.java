@@ -13,4 +13,5 @@ public interface PostService {
     Post findBySlug(String slug);
     Page<Post> getPostsByCategorySlug(String slug, Pageable pageable);
     Page<Post> getPostsByTagSlug(String slug, Pageable pageable);
+    List<Post> getUserPosts(String username);
 }
