@@ -44,4 +44,10 @@ public class IPostCommentService implements PostCommentService {
         List<PostComment> comments = postCommentRepository.findByPost_Slug(postSlug);
         return comments;
     }
+
+    @Override
+    public List<PostComment> getUserComments(String username) {
+        List<PostComment> comments = postCommentRepository.findByUser_Username(username);
+        return comments;
+    }
 }

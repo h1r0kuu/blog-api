@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface PostCommentRepository extends PagingAndSortingRepository<PostComment, Long> {
     List<PostComment> findByPost_Slug(String slug);
+    List<PostComment> findByUser_Username(String username);
 }

@@ -10,4 +10,5 @@ public interface PostCommentService {
     PostComment update(Long commentId, PostComment postComment);
     PostComment findById(Long commentId);
     List<PostComment> getPostComments(String postSlug);
+    List<PostComment> getUserComments(String username);
 }
