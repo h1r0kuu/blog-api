@@ -1,10 +1,12 @@
 package com.blog.api.dto;
 
 import com.blog.api.entity.PostComment;
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
+@Data
 public class PostCommentDto {
     private Long id;
     private PostDto post;

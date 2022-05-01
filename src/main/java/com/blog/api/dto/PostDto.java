@@ -1,11 +1,13 @@
 package com.blog.api.dto;
 
 import com.blog.api.entity.Post;
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Data
 public class PostDto {
     private Long id;
     private String title;

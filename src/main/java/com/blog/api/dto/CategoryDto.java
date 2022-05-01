@@ -1,10 +1,12 @@
 package com.blog.api.dto;
 
 import com.blog.api.entity.Category;
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
+@Data
 public class CategoryDto {
     private Long id;
     private CategoryDto parent;
@@ -13,12 +15,12 @@ public class CategoryDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    private CategoryDto convertToDto(Category category) {
+    public CategoryDto convertToDto(Category category) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(category, CategoryDto.class);
     }
 
-    private Category convertToEntity(CategoryDto categoryDto) {
+    public Category convertToEntity(CategoryDto categoryDto) {
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(categoryDto, Category.class);
     }

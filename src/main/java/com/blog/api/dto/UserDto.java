@@ -1,10 +1,12 @@
 package com.blog.api.dto;
 
 import com.blog.api.entity.User;
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
+@Data
 public class UserDto {
     private Long id;
     private String firstName;
