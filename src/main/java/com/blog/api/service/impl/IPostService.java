@@ -23,6 +23,25 @@ public class IPostService implements PostService {
     }
 
     @Override
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    @Override
+    public Post update(Long postId, Post post) {
+        Post p = postRepository.findById(postId).get();
+        p.setTitle(post.getTitle());
+        p.setSlug(post.getSlug());
+        p.setContent(post.getContent());
+        p.setCategory(post.getCategory());
+        p.setImageUrl(post.getImageUrl());
+        p.setTags(post.getTags());
+        p.setPublishedAt(post.getPublishedAt());
+        Post updatedPost = postRepository.save(p);
+        return updatedPost;
+    }
+
+    @Override
     public Page<Post> getPostsByCategorySlug(String slug, Pageable pageable) {
         Page<Post> posts = postRepository.findByCategory_Slug(slug, pageable);
         return posts;

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,19 @@ public class PostController {
     public ResponseEntity<PostDto> create(@RequestBody PostDto postDto) {
         Post createdPost = iPostService.create(postDto.convertToEntity(postDto));
         return ResponseEntity.ok(postDto.convertToDto(createdPost));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+        iPostService.delete(id);
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDto> update(@PathVariable("id") Long postId,
+                                          @RequestBody PostDto postDto) {
+        Post updatedPost = iPostService.update(postId, postDto.convertToEntity(postDto));
+        return ResponseEntity.ok(postDto.convertToDto(updatedPost));
     }
 
     @GetMapping("/category/{slug}")

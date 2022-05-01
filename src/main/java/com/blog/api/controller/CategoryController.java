@@ -4,6 +4,7 @@ import com.blog.api.dto.CategoryDto;
 import com.blog.api.entity.Category;
 import com.blog.api.service.impl.ICategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,19 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {
         Category createdCategory = iCategoryService.create(categoryDto.convertToEntity(categoryDto));
         return ResponseEntity.ok(categoryDto.convertToDto(createdCategory));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+        iCategoryService.delete(id);
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable("id") Long categoryId,
+                                                      @RequestBody CategoryDto categoryDto) {
+        Category updatedCategory = iCategoryService.update(categoryId, categoryDto.convertToEntity(categoryDto));
+        return ResponseEntity.ok(categoryDto.convertToDto(updatedCategory));
     }
 
     @GetMapping("/all")
