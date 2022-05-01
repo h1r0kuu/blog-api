@@ -13,6 +13,12 @@ public class IPostCommentService implements PostCommentService {
     private final PostCommentRepository postCommentRepository;
 
     @Override
+    public PostComment create(PostComment postComment) {
+        PostComment createdComment = postCommentRepository.save(postComment);
+        return createdComment;
+    }
+
+    @Override
     public void delete(Long id) {
         postCommentRepository.deleteById(id);
     }
