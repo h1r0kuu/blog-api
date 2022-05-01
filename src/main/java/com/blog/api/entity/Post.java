@@ -33,7 +33,10 @@ public class Post implements Serializable {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    //author id
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User user;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
