@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
@@ -39,5 +41,14 @@ public class PostCommentController {
     public ResponseEntity<PostCommentDto> getOne(@PathVariable("id") Long id) {
         PostComment comment = iPostCommentService.findById(id);
         return ResponseEntity.ok(postCommentDto.convertToDto(comment));
+    }
+
+    @GetMapping("/post/{slug}")
+    public ResponseEntity<List<PostCommentDto>> getCommentsByPost(@PathVariable("slug") String slug) {
+        List<PostComment> comments = iPostCommentService.getPostComments(slug);
+        return ResponseEntity.ok(comments
+                                 .stream()
+                                 .map(postCommentDto::convertToDto)
+                                 .toList());
     }
 }

@@ -6,6 +6,8 @@ import com.blog.api.service.PostCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class IPostCommentService implements PostCommentService {
@@ -35,5 +37,11 @@ public class IPostCommentService implements PostCommentService {
     public PostComment findById(Long commentId) {
         PostComment comment = postCommentRepository.findById(commentId).get();
         return comment;
+    }
+
+    @Override
+    public List<PostComment> getPostComments(String postSlug) {
+        List<PostComment> comments = postCommentRepository.findByPost_Slug(postSlug);
+        return comments;
     }
 }
