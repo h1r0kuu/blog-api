@@ -49,7 +49,7 @@ public class IPostService implements PostService {
 
     @Override
     public Page<Post> getPostsByTagSlug(String slug, Pageable pageable) {
-        Page<Post> posts = postRepository.findByTag_Slug(slug, pageable);
+        Page<Post> posts = postRepository.findByTags_Slug(slug, pageable);
         return posts;
     }
 }
