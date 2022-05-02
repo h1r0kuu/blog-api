@@ -95,34 +95,36 @@ public class IPostService implements PostService {
 
     @Override
     public void like(Post post, User user) throws NotPublished {
-        postRepository.findById(post.getId()).orElseThrow(()-> new NoSuchElementException("Can't found post with id " + post.getId()));
-        if(!isPostPublished(post)) {
+        Post foundedPost = postRepository.findById(post.getId())
+                                         .orElseThrow(()-> new NoSuchElementException("Can't found post with id " + post.getId()));
+        if(!isPostPublished(foundedPost)) {
             throw new NotPublished("Post not published yet");
         }
-        Set<User> likers = post.getLikes();
-        Set<User> disLikers= post.getDislikes();
+        Set<User> likers = foundedPost.getLikes();
+        Set<User> disLikers= foundedPost.getDislikes();
         if(disLikers.contains(user)) {
             disLikers.remove(user);
         }
         likers.add(user);
-        post.setLikes(likers);
-        update(post.getId(), post);
+        foundedPost.setLikes(likers);
+        update(foundedPost.getId(), foundedPost);
     }
 
     @Override
     public void dislike(Post post, User user) throws NotPublished {
-        postRepository.findById(post.getId()).orElseThrow(()-> new NoSuchElementException("Can't found post with id " + post.getId()));
-        if(!isPostPublished(post)) {
+        Post foundedPost = postRepository.findById(post.getId())
+                                         .orElseThrow(()-> new NoSuchElementException("Can't found post with id " + post.getId()));
+        if(!isPostPublished(foundedPost)) {
             throw new NotPublished("Post not published yet");
         }
-        Set<User> likers = post.getLikes();
-        Set<User> disLikers= post.getDislikes();
+        Set<User> likers = foundedPost.getLikes();
+        Set<User> disLikers= foundedPost.getDislikes();
         if(likers.contains(user)) {
             likers.remove(user);
         }
         disLikers.add(user);
-        post.setDislikes(disLikers);
-        update(post.getId(), post);
+        foundedPost.setDislikes(disLikers);
+        update(foundedPost.getId(), foundedPost);
     }
 
     @Override
