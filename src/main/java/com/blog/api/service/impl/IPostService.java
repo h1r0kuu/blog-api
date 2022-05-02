@@ -95,6 +95,7 @@ public class IPostService implements PostService {
 
     @Override
     public void like(Post post, User user) throws NotPublished {
+        postRepository.findById(post.getId()).orElseThrow(()-> new NoSuchElementException("Can't found post with id " + post.getId()));
         if(!isPostPublished(post)) {
             throw new NotPublished("Post not published yet");
         }
@@ -110,6 +111,7 @@ public class IPostService implements PostService {
 
     @Override
     public void dislike(Post post, User user) throws NotPublished {
+        postRepository.findById(post.getId()).orElseThrow(()-> new NoSuchElementException("Can't found post with id " + post.getId()));
         if(!isPostPublished(post)) {
             throw new NotPublished("Post not published yet");
         }
