@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 @ResponseStatus
 public class RestException {
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<LinkedHashMap> noSuchElementException(NoSuchElementException exception, WebRequest request) {
+    public ResponseEntity<LinkedHashMap<String, String>> noSuchElementException(NoSuchElementException exception, WebRequest request) {
         LinkedHashMap<String, String> error = new LinkedHashMap<String, String>();
         error.put("status_code", HttpStatus.NOT_FOUND.toString());
         error.put("error", exception.getMessage());
@@ -23,7 +23,7 @@ public class RestException {
     }
 
     @ExceptionHandler(AlreadyExist.class)
-    public ResponseEntity<LinkedHashMap> alreadyExist(AlreadyExist exception, WebRequest request) {
+    public ResponseEntity<LinkedHashMap<String, String>> alreadyExist(AlreadyExist exception, WebRequest request) {
         LinkedHashMap<String, String> error = new LinkedHashMap<String, String>();
         error.put("status_code", HttpStatus.CONFLICT.toString());
         error.put("error", exception.getMessage());
@@ -31,7 +31,7 @@ public class RestException {
     }
 
     @ExceptionHandler(NotPublished.class)
-    public ResponseEntity<LinkedHashMap> notPublished(NotPublished exception, WebRequest request) {
+    public ResponseEntity<LinkedHashMap<String, String>> notPublished(NotPublished exception, WebRequest request) {
         LinkedHashMap<String, String> error = new LinkedHashMap<String, String>();
         error.put("status_code", HttpStatus.CONFLICT.toString());
         error.put("error", exception.getMessage());
@@ -39,7 +39,7 @@ public class RestException {
     }
 
     @ExceptionHandler(HidenUsernameNotFoundException.class)
-    public ResponseEntity<LinkedHashMap> notPublished(HidenUsernameNotFoundException exception, WebRequest request) {
+    public ResponseEntity<LinkedHashMap<String, String>> notPublished(HidenUsernameNotFoundException exception, WebRequest request) {
         LinkedHashMap<String, String> error = new LinkedHashMap<String, String>();
         error.put("status_code", HttpStatus.NOT_FOUND.toString());
         error.put("error", exception.getMessage());
