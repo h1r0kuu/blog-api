@@ -7,6 +7,7 @@ import com.blog.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -24,11 +25,10 @@ public class IUserService implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws HidenUsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if(Objects.isNull(user)) throw new HidenUsernameNotFoundException("User with this username does`t exist");
-        return user;
+        return getUserByUsername(username);
     }
 
+    @Override
     public User getUserByUsername(String username) throws HidenUsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if(Objects.isNull(user)) throw new HidenUsernameNotFoundException("User with this username does`t exist");
