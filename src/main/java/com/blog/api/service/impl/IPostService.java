@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -20,6 +22,11 @@ public class IPostService implements PostService {
 
     @Override
     public Post create(Post post) {
+        if(!Objects.nonNull(post.getPublishedAt())) {
+            post.setPublishedAt(LocalDateTime.now());
+        }
+
+
         return postRepository.save(post);
     }
 
