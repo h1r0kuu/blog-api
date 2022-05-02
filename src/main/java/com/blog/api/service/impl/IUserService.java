@@ -1,13 +1,12 @@
 package com.blog.api.service.impl;
 
 import com.blog.api.dao.UserRepository;
-import com.blog.api.dto.UserDto;
 import com.blog.api.entity.User;
+import com.blog.api.exception.HidenUsernameNotFoundException;
 import com.blog.api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -24,15 +23,15 @@ public class IUserService implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws HidenUsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(Objects.isNull(user)) throw new UsernameNotFoundException("User with this username does`t exist");
+        if(Objects.isNull(user)) throw new HidenUsernameNotFoundException("User with this username does`t exist");
         return user;
     }
 
-    public User getUserByUsername(String username) throws UsernameNotFoundException {
+    public User getUserByUsername(String username) throws HidenUsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if(Objects.isNull(user)) throw new UsernameNotFoundException("User with this username does`t exist");
+        if(Objects.isNull(user)) throw new HidenUsernameNotFoundException("User with this username does`t exist");
         return user;
     }
 }
