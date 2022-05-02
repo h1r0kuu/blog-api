@@ -28,13 +28,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
-
         if(Objects.nonNull(header) && header.startsWith("Bearer ")) {
             String jwt = header.substring(7);
-
             String username = jwtUtil.getUsernameFromToken(jwt);
-            if (Objects.nonNull(username)
-                    && Objects.nonNull(SecurityContextHolder.getContext().getAuthentication())) {
+            if (Objects.nonNull(username)) {
                 User user = iUserService.getUserByUsername(username);
                 if (jwtUtil.validateToken(jwt, user)) {
                     UsernamePasswordAuthenticationToken UPAT = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
