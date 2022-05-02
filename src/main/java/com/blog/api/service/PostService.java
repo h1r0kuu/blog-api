@@ -1,6 +1,7 @@
 package com.blog.api.service;
 
 import com.blog.api.entity.Post;
+import com.blog.api.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +15,8 @@ public interface PostService {
     Page<Post> getPostsByCategorySlug(String slug, Pageable pageable);
     Page<Post> getPostsByTagSlug(String slug, Pageable pageable);
     List<Post> getUserPosts(String username);
+    List<Post> findUserLikedPosts(String username);
+    List<Post> findUserDisLikedPosts(String username);
+    void like(Post post, User user);
+    void dislike(Post post, User user);
 }

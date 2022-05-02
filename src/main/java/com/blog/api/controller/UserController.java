@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,12 +50,13 @@ public class UserController {
 
     @PostMapping("/authentication")
     public ResponseEntity<String> createAuthToken(@RequestParam("username") String username,
-                                                   @RequestParam("password") String password) {
-        authManager.authenticate(
+                                                  @RequestParam("password") String password) {
+        Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
         User user = iUserService.getUserByUsername(username);
         String jwt = jwtUtil.generateToken(user);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok(jwt);
     }
 
@@ -72,6 +75,42 @@ public class UserController {
         return ResponseEntity.ok(comments
                 .stream()
                 .map(postCommentDto::convertToDto)
+                .toList());
+    }
+
+    @PostMapping("/post/{slug}/like")
+    public ResponseEntity<String> likePost(@PathVariable("slug") String slug,
+                                           Authentication authentication) {
+        Post post = iPostService.findBySlug(slug);
+        User user = iUserService.getUserByUsername(authentication.getName());
+        iPostService.like(post, user);
+        return ResponseEntity.ok("Successfully liked");
+    }
+
+    @PostMapping("/post/{slug}/dislike")
+    public ResponseEntity<String> disLikePost(@PathVariable("slug") String slug,
+                                              Authentication authentication) {
+        Post post = iPostService.findBySlug(slug);
+        User user = iUserService.getUserByUsername(authentication.getName());
+        iPostService.dislike(post, user);
+        return ResponseEntity.ok("Successfully disliked");
+    }
+
+    @GetMapping("/{username}/post/liked")
+    public ResponseEntity<List<PostDto>> getUserLikedPosts(@PathVariable("username") String username) {
+        List<Post> posts = iPostService.findUserLikedPosts(username);
+        return ResponseEntity.ok(posts
+                                 .stream()
+                                 .map(postDto::convertToDto)
+                                 .toList());
+    }
+
+    @GetMapping("/{username}/post/disliked")
+    public ResponseEntity<List<PostDto>> getUserDisLikedPosts(@PathVariable("username") String username) {
+        List<Post> posts = iPostService.findUserDisLikedPosts(username);
+        return ResponseEntity.ok(posts
+                .stream()
+                .map(postDto::convertToDto)
                 .toList());
     }
 }

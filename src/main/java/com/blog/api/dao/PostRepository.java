@@ -15,4 +15,6 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
     Page<Post> findByCategory_Slug(String slug, Pageable pageable);
     Page<Post> findByTags_Slug(String slug, Pageable pageable);
     List<Post> findByUser_Username(String username);
+    List<Post> findByLikes_Username(String username);
+    List<Post> findByDislikes_Username(String username);
 }

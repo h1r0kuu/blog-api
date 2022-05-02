@@ -47,7 +47,21 @@ public class Post implements Serializable {
     )
     private Set<Tag> tags;
 
-    //TODO: add likes dislikes
+    @ManyToMany
+    @JoinTable(
+            name = "post_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> likes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_dislikes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> dislikes;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -122,6 +136,22 @@ public class Post implements Serializable {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Set<User> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<User> likes) {
+        this.likes = likes;
+    }
+
+    public Set<User> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<User> dislikes) {
+        this.dislikes = dislikes;
     }
 
     public LocalDateTime getCreatedAt() {
