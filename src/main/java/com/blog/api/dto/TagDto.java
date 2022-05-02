@@ -1,20 +1,16 @@
 package com.blog.api.dto;
 
 import com.blog.api.entity.Tag;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
 public class TagDto {
     private Long id;
     private String title;
     private String slug;
-    @JsonIgnore
-    private Set<PostDto> posts;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
