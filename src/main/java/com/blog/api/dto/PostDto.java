@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -26,6 +27,7 @@ public class PostDto {
 
     public PostDto convertToDto(Post post) {
         ModelMapper modelMapper = new ModelMapper();
+        UserDto userDto = new UserDto();
         modelMapper.addMappings(new PropertyMap<Post, PostDto>() {
             @Override
             protected void configure() {
@@ -34,13 +36,17 @@ public class PostDto {
             }
         });
         PostDto postDto = modelMapper.map(post, PostDto.class);
-        postDto.setLikes(post.getLikes().size());
-        postDto.setDislikes(post.getDislikes().size());
+        postDto.setLikes( Objects.nonNull(post.getLikes()) ? post.getLikes().size() : 0 );
+        postDto.setDislikes( Objects.nonNull(post.getDislikes()) ? post.getDislikes().size() : 0);
+        postDto.setAuthor(userDto.convertToDto(post.getUser()));
         return postDto;
     }
 
     public Post convertToEntity(PostDto postDto) {
         ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(postDto, Post.class);
+        Post post = modelMapper.map(postDto, Post.class);
+        UserDto userDto = postDto.getAuthor();
+        post.setUser(userDto.convertToEntity(userDto));
+        return post;
     }
 }
