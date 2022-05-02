@@ -1,6 +1,7 @@
 package com.blog.api.dto;
 
 import com.blog.api.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
@@ -12,6 +13,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private String username;
+    @JsonIgnore
     private String password;
     private LocalDateTime registeredAt;
     private LocalDateTime updatedAt;
