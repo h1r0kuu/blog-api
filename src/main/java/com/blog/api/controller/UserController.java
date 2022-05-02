@@ -33,6 +33,7 @@ public class UserController {
     private final JWTUtil jwtUtil;
     private final IPostService iPostService;
     private final IPostCommentService iPostCommentService;
+    private final UserDto userDto = new UserDto();
     private final PostDto postDto = new PostDto();
     private final PostCommentDto postCommentDto = new PostCommentDto();
 
@@ -59,6 +60,12 @@ public class UserController {
         String jwt = jwtUtil.generateToken(user);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok(jwt);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable("username") String username) {
+        User user = iUserService.getUserByUsername(username);
+        return ResponseEntity.ok(userDto.convertToDto(user));
     }
 
     @GetMapping("/{username}/posts")
