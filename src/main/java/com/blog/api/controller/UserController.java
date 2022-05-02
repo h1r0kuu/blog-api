@@ -6,6 +6,7 @@ import com.blog.api.dto.UserDto;
 import com.blog.api.entity.Post;
 import com.blog.api.entity.PostComment;
 import com.blog.api.entity.User;
+import com.blog.api.exception.NotPublished;
 import com.blog.api.service.impl.IPostCommentService;
 import com.blog.api.service.impl.IPostService;
 import com.blog.api.service.impl.IUserService;
@@ -80,7 +81,7 @@ public class UserController {
 
     @PostMapping("/post/{slug}/like")
     public ResponseEntity<String> likePost(@PathVariable("slug") String slug,
-                                           Authentication authentication) {
+                                           Authentication authentication) throws NotPublished {
         Post post = iPostService.findBySlug(slug);
         User user = iUserService.getUserByUsername(authentication.getName());
         iPostService.like(post, user);
@@ -89,7 +90,7 @@ public class UserController {
 
     @PostMapping("/post/{slug}/dislike")
     public ResponseEntity<String> disLikePost(@PathVariable("slug") String slug,
-                                              Authentication authentication) {
+                                              Authentication authentication) throws NotPublished {
         Post post = iPostService.findBySlug(slug);
         User user = iUserService.getUserByUsername(authentication.getName());
         iPostService.dislike(post, user);

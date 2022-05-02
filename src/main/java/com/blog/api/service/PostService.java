@@ -2,13 +2,15 @@ package com.blog.api.service;
 
 import com.blog.api.entity.Post;
 import com.blog.api.entity.User;
+import com.blog.api.exception.AlreadyExist;
+import com.blog.api.exception.NotPublished;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface PostService {
-    Post create(Post post);
+    Post create(Post post) throws AlreadyExist;
     void delete(Long id);
     Post update(Long postId, Post post);
     Post findBySlug(String slug);
@@ -17,6 +19,7 @@ public interface PostService {
     List<Post> getUserPosts(String username);
     List<Post> findUserLikedPosts(String username);
     List<Post> findUserDisLikedPosts(String username);
-    void like(Post post, User user);
-    void dislike(Post post, User user);
+    void like(Post post, User user) throws NotPublished;
+    void dislike(Post post, User user) throws NotPublished;
+    boolean isPostPublished(Post post);
 }

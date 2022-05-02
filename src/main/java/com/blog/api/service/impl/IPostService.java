@@ -3,6 +3,8 @@ package com.blog.api.service.impl;
 import com.blog.api.dao.PostRepository;
 import com.blog.api.entity.Post;
 import com.blog.api.entity.User;
+import com.blog.api.exception.AlreadyExist;
+import com.blog.api.exception.NotPublished;
 import com.blog.api.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,13 +24,18 @@ public class IPostService implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public Post create(Post post) {
-        if(!Objects.nonNull(post.getPublishedAt())) {
-            post.setPublishedAt(LocalDateTime.now());
+    public Post create(Post post) throws AlreadyExist {
+        Post p = postRepository.save(post);
+
+        if(!Objects.nonNull(p.getPublishedAt())) {
+            p.setPublishedAt(LocalDateTime.now());
         }
 
+        if(!Objects.nonNull(p.getSlug())) {
+            throw new AlreadyExist( "Post with slug " + p.getSlug() + " already exist");
+        }
 
-        return postRepository.save(post);
+        return postRepository.save(p);
     }
 
     @Override
@@ -37,7 +45,8 @@ public class IPostService implements PostService {
 
     @Override
     public Post update(Long postId, Post post) {
-        Post p = postRepository.findById(postId).get();
+        Post p = postRepository.findById(postId)
+                               .orElseThrow(()-> new NoSuchElementException("Can't found post with id " + postId));
         p.setTitle(post.getTitle());
         p.setSlug(post.getSlug());
         p.setContent(post.getContent());
@@ -52,7 +61,11 @@ public class IPostService implements PostService {
 
     @Override
     public Post findBySlug(String slug) {
-        return postRepository.findBySlug(slug);
+        Post post = postRepository.findBySlug(slug);
+        if(!Objects.nonNull(post)) {
+            throw new NoSuchElementException("Can't found post with slug " + slug);
+        }
+        return post;
     }
 
     @Override
@@ -81,7 +94,10 @@ public class IPostService implements PostService {
     }
 
     @Override
-    public void like(Post post, User user) {
+    public void like(Post post, User user) throws NotPublished {
+        if(!isPostPublished(post)) {
+            throw new NotPublished("Post not published yet");
+        }
         Set<User> likers = post.getLikes();
         Set<User> disLikers= post.getDislikes();
         if(disLikers.contains(user)) {
@@ -93,7 +109,10 @@ public class IPostService implements PostService {
     }
 
     @Override
-    public void dislike(Post post, User user) {
+    public void dislike(Post post, User user) throws NotPublished {
+        if(!isPostPublished(post)) {
+            throw new NotPublished("Post not published yet");
+        }
         Set<User> likers = post.getLikes();
         Set<User> disLikers= post.getDislikes();
         if(likers.contains(user)) {
@@ -102,5 +121,15 @@ public class IPostService implements PostService {
         disLikers.add(user);
         post.setDislikes(disLikers);
         update(post.getId(), post);
+    }
+
+    @Override
+    public boolean isPostPublished(Post post) {
+        if(!Objects.nonNull(postRepository.findBySlug(post.getSlug()))) {
+            throw new NoSuchElementException("Can't found post with slug " + post.getSlug());
+        }
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime publishTime = post.getPublishedAt();
+        return publishTime.isBefore(now);
     }
 }

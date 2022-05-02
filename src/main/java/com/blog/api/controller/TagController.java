@@ -2,6 +2,7 @@ package com.blog.api.controller;
 
 import com.blog.api.dto.TagDto;
 import com.blog.api.entity.Tag;
+import com.blog.api.exception.AlreadyExist;
 import com.blog.api.service.impl.ITagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class TagController {
     private final TagDto tagDto = new TagDto();
 
     @PostMapping("/create")
-    public ResponseEntity<TagDto> create(@RequestBody TagDto tagDto) {
+    public ResponseEntity<TagDto> create(@RequestBody TagDto tagDto) throws AlreadyExist {
         Tag createdTag = iTagService.create(tagDto.convertToEntity(tagDto));
         return ResponseEntity.ok(tagDto.convertToDto(createdTag));
     }

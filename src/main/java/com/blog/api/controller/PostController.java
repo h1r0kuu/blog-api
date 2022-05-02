@@ -2,6 +2,7 @@ package com.blog.api.controller;
 
 import com.blog.api.dto.PostDto;
 import com.blog.api.entity.Post;
+import com.blog.api.exception.AlreadyExist;
 import com.blog.api.service.impl.IPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public class PostController {
     private final PostDto postDto = new PostDto();
 
     @PostMapping("/create")
-    public ResponseEntity<PostDto> create(@RequestBody PostDto postDto) {
+    public ResponseEntity<PostDto> create(@RequestBody PostDto postDto) throws AlreadyExist {
         Post createdPost = iPostService.create(postDto.convertToEntity(postDto));
         return ResponseEntity.ok(postDto.convertToDto(createdPost));
     }

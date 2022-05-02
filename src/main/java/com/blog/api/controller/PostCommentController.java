@@ -2,6 +2,7 @@ package com.blog.api.controller;
 
 import com.blog.api.dto.PostCommentDto;
 import com.blog.api.entity.PostComment;
+import com.blog.api.exception.NotPublished;
 import com.blog.api.service.impl.IPostCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class PostCommentController {
     private final PostCommentDto postCommentDto = new PostCommentDto();
 
     @PostMapping("/create")
-    public ResponseEntity<PostCommentDto> create(@RequestBody PostCommentDto postCommentDto) {
+    public ResponseEntity<PostCommentDto> create(@RequestBody PostCommentDto postCommentDto) throws NotPublished {
         PostComment createdComment = iPostCommentService.create(postCommentDto.convertToEntity(postCommentDto));
         return ResponseEntity.ok(postCommentDto.convertToDto(createdComment));
     }

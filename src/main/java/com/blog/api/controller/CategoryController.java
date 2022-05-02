@@ -2,6 +2,7 @@ package com.blog.api.controller;
 
 import com.blog.api.dto.CategoryDto;
 import com.blog.api.entity.Category;
+import com.blog.api.exception.AlreadyExist;
 import com.blog.api.service.impl.ICategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class CategoryController {
     private final CategoryDto categoryDto = new CategoryDto();
 
     @PostMapping("/create")
-    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) {
+    public ResponseEntity<CategoryDto> create(@RequestBody CategoryDto categoryDto) throws AlreadyExist {
         Category createdCategory = iCategoryService.create(categoryDto.convertToEntity(categoryDto));
         return ResponseEntity.ok(categoryDto.convertToDto(createdCategory));
     }
