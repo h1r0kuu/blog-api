@@ -20,7 +20,7 @@ public class ICategoryService implements CategoryService {
     @Override
     public Category create(Category category) throws AlreadyExist {
         Category cat = categoryRepository.findBySlug(category.getSlug());
-        if(!Objects.nonNull(cat.getSlug())) {
+        if(!Objects.nonNull(cat)) {
             throw new AlreadyExist( "Category with slug " + category.getSlug() + " already exist");
         }
         return categoryRepository.save(category);
