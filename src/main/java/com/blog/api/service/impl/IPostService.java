@@ -154,4 +154,9 @@ public class IPostService implements PostService {
         List<Post> posts = postRepository.getProductsAddedAfter(week);
         return posts;
     }
+
+    @Override
+    public List<Post> getPostByTitleLike(String name) {
+        return postRepository.findPostByTitleLike(name);
+    }
 }

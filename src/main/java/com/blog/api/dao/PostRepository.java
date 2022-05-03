@@ -20,4 +20,6 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
     List<Post> findByDislikes_Username(String username);
     @Query("SELECT p FROM Post p WHERE p.publishedAt >= ?1")
     List<Post> getProductsAddedAfter(LocalDateTime time);
+    @Query("SELECT p FROM Post p WHERE p.title LIKE %?1%")
+    List<Post> findPostByTitleLike(String title);
 }

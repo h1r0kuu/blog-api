@@ -83,6 +83,14 @@ public class PostController {
                                       .toList());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<PostDto>> search(@RequestParam("name") String name) {
+        List<Post> posts = iPostService.getPostByTitleLike(name);
+        return ResponseEntity.ok(posts.stream()
+                                      .map(postDto::convertToDto)
+                                      .toList());
+    }
+
     private LinkedHashMap<String, Object> getSortedPostsResponse(String sort, Page<Post> posts) {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         List<PostDto> sortedList = PostSorting.sort(sort, posts);

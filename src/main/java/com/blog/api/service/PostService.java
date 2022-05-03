@@ -25,4 +25,5 @@ public interface PostService {
     void dislike(Post post, User user) throws NotPublished;
     boolean isPostPublished(Post post);
     List<Post> getNewPosts();
+    List<Post> getPostByTitleLike(String name);
 }
