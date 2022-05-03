@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Component
 public class JWTUtil {
 
-    @Value("${jwt.secret_key}")
+    @Value(value = "$ {jwt.secret_key}")
     private String SECRET_KEY;
 
     public String getUsernameFromToken(String token) {

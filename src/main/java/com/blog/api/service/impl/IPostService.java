@@ -23,7 +23,7 @@ import java.util.*;
 public class IPostService implements PostService {
 
 
-    @Value("${post-image}")
+    @Value(value = "$ {post.images}")
     private String postImagesPath;
     private final PostRepository postRepository;
 
