@@ -6,25 +6,29 @@ import com.blog.api.entity.User;
 import com.blog.api.exception.AlreadyExist;
 import com.blog.api.exception.NotPublished;
 import com.blog.api.service.PostService;
+import com.blog.api.utils.FileUploadUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class IPostService implements PostService {
 
+
+    @Value("${post-image}")
+    private String postImagesPath;
     private final PostRepository postRepository;
 
     @Override
-    public Post create(Post post) throws AlreadyExist {
+    public Post create(Post post, MultipartFile postImage) throws AlreadyExist, IOException {
         Post p = postRepository.save(post);
 
         if(!Objects.nonNull(p.getPublishedAt())) {
@@ -33,6 +37,13 @@ public class IPostService implements PostService {
 
         if(!Objects.nonNull(p.getSlug())) {
             throw new AlreadyExist( "Post with slug " + p.getSlug() + " already exist");
+        }
+
+        if(Objects.nonNull(postImage)) {
+            String fileName = postImage.getOriginalFilename();
+            String uploadDir = postImagesPath + UUID.randomUUID() + "/";
+            FileUploadUtil.upload(uploadDir, fileName, postImage);
+            p.setImageUrl( uploadDir + fileName );
         }
 
         return postRepository.save(p);

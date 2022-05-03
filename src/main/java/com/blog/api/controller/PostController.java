@@ -11,9 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -24,9 +27,10 @@ public class PostController {
     private final IPostService iPostService;
     private final PostDto postDto = new PostDto();
 
-    @PostMapping("/create")
-    public ResponseEntity<PostDto> create(@RequestBody PostDto postDto) throws AlreadyExist {
-        Post createdPost = iPostService.create(postDto.convertToEntity(postDto));
+    @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<PostDto> create(@ModelAttribute PostDto postDto,
+                                          @RequestPart("post_image") MultipartFile postImage) throws AlreadyExist, IOException {
+        Post createdPost = iPostService.create(postDto.convertToEntity(postDto), postImage);
         return ResponseEntity.ok(postDto.convertToDto(createdPost));
     }
 
