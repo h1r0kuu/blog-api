@@ -21,6 +21,7 @@ public class PostDto {
     private Set<TagDto> tags;
     private int likes;
     private int dislikes;
+    private int commentCount;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime publishedAt;
@@ -38,7 +39,8 @@ public class PostDto {
         PostDto postDto = modelMapper.map(post, PostDto.class);
         postDto.setLikes( Objects.nonNull(post.getLikes()) ? post.getLikes().size() : 0 );
         postDto.setDislikes( Objects.nonNull(post.getDislikes()) ? post.getDislikes().size() : 0);
-        postDto.setAuthor(userDto.convertToDto(post.getUser()));
+        postDto.setAuthor( Objects.nonNull(post.getUser()) ? userDto.convertToDto(post.getUser()) : null );
+        postDto.setCommentCount( Objects.nonNull(post.getComments()) ? post.getComments().size() : 0 );
         return postDto;
     }
 
@@ -46,7 +48,7 @@ public class PostDto {
         ModelMapper modelMapper = new ModelMapper();
         Post post = modelMapper.map(postDto, Post.class);
         UserDto userDto = postDto.getAuthor();
-        post.setUser(userDto.convertToEntity(userDto));
+        post.setUser( Objects.nonNull(userDto) ? userDto.convertToEntity(userDto) : null );
         return post;
     }
 }

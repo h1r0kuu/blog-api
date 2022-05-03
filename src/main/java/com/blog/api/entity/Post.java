@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -62,6 +63,9 @@ public class Post implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<User> dislikes;
+
+    @OneToMany(mappedBy = "post")
+    private List<PostComment> comments;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -152,6 +156,14 @@ public class Post implements Serializable {
 
     public void setDislikes(Set<User> dislikes) {
         this.dislikes = dislikes;
+    }
+
+    public List<PostComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<PostComment> comments) {
+        this.comments = comments;
     }
 
     public LocalDateTime getCreatedAt() {

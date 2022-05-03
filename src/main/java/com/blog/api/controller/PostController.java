@@ -4,6 +4,7 @@ import com.blog.api.dto.PostDto;
 import com.blog.api.entity.Post;
 import com.blog.api.exception.AlreadyExist;
 import com.blog.api.service.impl.IPostService;
+import com.blog.api.utils.PostSorting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -47,21 +50,34 @@ public class PostController {
     }
 
     @GetMapping("/category/{slug}")
-    public ResponseEntity<Page<Post>> getPostsByCategory(@PathVariable("slug") String slug,
-                                                         @RequestParam(defaultValue = "0", value = "page_num") int pageNum,
-                                                         @RequestParam(defaultValue = "10", value = "page_size") int pageSize) {
-
+    public ResponseEntity<HashMap<String, Object>> getPostsByCategory(@PathVariable("slug") String slug,
+                                                            @RequestParam(defaultValue = "0", value = "page_num") int pageNum,
+                                                            @RequestParam(defaultValue = "10", value = "page_size") int pageSize,
+                                                            @RequestParam(defaultValue = "popular", value = "sort") String sort) {
         Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by("createdAt"));
         Page<Post> posts = iPostService.getPostsByCategorySlug(slug, paging);
-        return ResponseEntity.ok(posts);
+        LinkedHashMap<String, Object> result = getSortedPostsResponse(sort, posts);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/tag/{slug}")
-    public ResponseEntity<Page<Post>> getPostsByTag(@PathVariable("slug") String slug,
+    public ResponseEntity<HashMap<String, Object>> getPostsByTag(@PathVariable("slug") String slug,
                                                     @RequestParam(defaultValue = "0", value = "page_num") int pageNum,
-                                                    @RequestParam(defaultValue = "10", value = "page_size") int pageSize) {
+                                                    @RequestParam(defaultValue = "10", value = "page_size") int pageSize,
+                                                    @RequestParam(defaultValue = "popular", value = "sort") String sort) {
         Pageable paging = PageRequest.of(pageNum, pageSize, Sort.by("createdAt"));
         Page<Post> posts = iPostService.getPostsByTagSlug(slug, paging);
-        return ResponseEntity.ok(posts);
+        LinkedHashMap<String, Object> result = getSortedPostsResponse(sort, posts);
+        return ResponseEntity.ok(result);
+    }
+
+    private LinkedHashMap<String, Object> getSortedPostsResponse(String sort, Page<Post> posts) {
+        LinkedHashMap<String, Object> result = new LinkedHashMap<>();
+        List<PostDto> sortedList = PostSorting.sort(sort, posts);
+        result.put("posts", sortedList);
+        result.put("total_posts", posts.getTotalElements());
+        result.put("total_pages", posts.getTotalPages());
+        result.put("current_page", posts.getNumber());
+        return result;
     }
 }
