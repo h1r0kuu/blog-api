@@ -75,6 +75,14 @@ public class PostController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/new")
+    public ResponseEntity<List<PostDto>> getNewPosts() {
+        List<Post> posts = iPostService.getNewPosts();
+        return ResponseEntity.ok(posts.stream()
+                                      .map(postDto::convertToDto)
+                                      .toList());
+    }
+
     private LinkedHashMap<String, Object> getSortedPostsResponse(String sort, Page<Post> posts) {
         LinkedHashMap<String, Object> result = new LinkedHashMap<>();
         List<PostDto> sortedList = PostSorting.sort(sort, posts);

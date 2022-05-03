@@ -147,4 +147,11 @@ public class IPostService implements PostService {
         LocalDateTime publishTime = post.getPublishedAt();
         return publishTime.isBefore(now);
     }
+
+    @Override
+    public List<Post> getNewPosts() {
+        LocalDateTime week = LocalDateTime.now().minusDays(7l);
+        List<Post> posts = postRepository.getProductsAddedAfter(week);
+        return posts;
+    }
 }

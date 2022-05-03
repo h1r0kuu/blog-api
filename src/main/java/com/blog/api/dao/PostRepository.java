@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -17,4 +18,6 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
     List<Post> findByUser_Username(String username);
     List<Post> findByLikes_Username(String username);
     List<Post> findByDislikes_Username(String username);
+    @Query("SELECT p FROM Post p WHERE p.publishedAt >= ?1")
+    List<Post> getProductsAddedAfter(LocalDateTime time);
 }
