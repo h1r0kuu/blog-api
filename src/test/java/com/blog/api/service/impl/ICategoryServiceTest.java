@@ -3,19 +3,17 @@ package com.blog.api.service.impl;
 import com.blog.api.dao.CategoryRepository;
 import com.blog.api.entity.Category;
 import com.blog.api.exception.AlreadyExist;
-import lombok.SneakyThrows;
-import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.List;
+
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -26,29 +24,24 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class ICategoryServiceTest {
 
-    @Mock
+    @Autowired
     private CategoryRepository repo;
     private ICategoryService service;
-    private AutoCloseable autoCloseable;
 
     @BeforeEach
-    void setUp() throws AlreadyExist {
-        autoCloseable = MockitoAnnotations.openMocks(this);
+    public void init() {
         service = new ICategoryService(repo);
-        Category cat1 = new Category(1L,null,"qwe","category1",null,null);
-        Category cat2 = new Category(2L, null, "ewq", "category2", null, null);
-        service.create(cat1);
-        service.create(cat2);
-        System.out.println(service.getAll());
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void create() throws AlreadyExist {
-        Category cat3 = new Category(3L, null, "ewq", "category2", null, null);
-
+    void create() {
+        Category cat1 = new Category(1L,null,"qwe","category1",null,null);
+        Category cat2 = new Category(2L, null, "ewq", "category1", null, null);
         assertThrows(AlreadyExist.class,
             () -> {
-                service.create(cat3);
+                service.create(cat1);
+                service.create(cat2);
             }
         );
     }
@@ -67,10 +60,14 @@ class ICategoryServiceTest {
     }
 
     @Test
-    void getAll() {
-        List<Category> categories = service.getAll();
-        assertEquals(2,categories.size());
-
+    void getAll() throws AlreadyExist {
+        Category cat1 = new Category(1L,null,"qwe","category1",null,null);
+        service.create(cat1);
+        assertEquals(1, service.getAll().size());
     }
 
+    @AfterEach
+    public void delete() {
+        repo.deleteAll();
+    }
 }
