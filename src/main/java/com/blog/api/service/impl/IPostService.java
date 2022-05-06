@@ -145,7 +145,7 @@ public class IPostService implements PostService {
         }
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime publishTime = post.getPublishedAt();
-        return publishTime.isBefore(now);
+        return publishTime.isAfter(now);
     }
 
     @Override
